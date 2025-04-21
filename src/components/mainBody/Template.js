@@ -3,8 +3,15 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
 import "./Template.css"
 import blank from '../../assets/images/forms-blank-googlecolors.png';
+import uuid from "react-uuid"
+import { useNavigate } from 'react-router-dom';
 
-function Template () {
+function Template(){
+  const navigate = useNavigate();
+  const createForm = () => {
+    const id_ = uuid();
+    navigate("/form/" + id_);
+  };
   return (
     <div className="template_section">
       <div className="template_top">
@@ -21,7 +28,7 @@ function Template () {
         </div>
       </div>
       <div className="template_body">
-        <div className="card">
+        <div className="card" onClick={createForm}>
            <img src={blank} alt="Blank form preview" className="card_image"/>
         <p className="card_title">Blank</p>
         </div>
