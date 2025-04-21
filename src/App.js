@@ -10,6 +10,7 @@ import SuccessPage from './components/questionsForm/SuccessPage';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
+import SubmitForm from './components/SubmitForm';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -39,6 +40,9 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path="/signup" element={<Signup />} />
+          
+          <Route path="/forms/:formId/submit" element={<SubmitForm />} />
+          
           <Route path="/form/:id" element={
             <ProtectedRoute>
               <div>
