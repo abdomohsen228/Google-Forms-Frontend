@@ -55,7 +55,6 @@ function QuestionForm() {
   function addQuestionType(i, type) {
     const newQuestions = [...questions];
     newQuestions[i].questionType = type;
-    // Reset options when changing to text/paragraph type
     if (type === 'text' || type === 'paragraph') {
       newQuestions[i].options = [];
     } else if (newQuestions[i].options.length === 0) {
@@ -112,12 +111,13 @@ function QuestionForm() {
     try {
       const formattedQuestions = questions.map((q, index) => {
         const questionType = q.questionType === 'text' ? 'short_text' : 
-                           q.questionType === 'checkbox' ? 'checkboxes' : 
+                           q.questionType === 'checkbox' ? 'checkboxes' :
                            q.questionType === 'radio' ? 'multiple_choice' : 
                            q.questionType === 'paragraph' ? 'paragraph' : 'short_text';
         
         return {
           type: questionType,
+          questionText: q.questionText,
           isRequired: q.required,
           options: questionType === 'short_text' || questionType === 'paragraph' ? [] : q.options.map(opt => opt.optionText),
           settings: {},

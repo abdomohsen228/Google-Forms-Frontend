@@ -121,7 +121,6 @@ function SubmitForm() {
         )}
 
         <form onSubmit={handleSubmit}>
-          {/* Email field (first question is always email) */}
           <FormControl fullWidth margin="normal" required>
             <TextField
               label="Email Address"
@@ -133,11 +132,10 @@ function SubmitForm() {
             />
           </FormControl>
 
-          {/* Other questions */}
           {form.questions.slice(1).map((question, index) => (
             <FormControl key={question._id} fullWidth margin="normal" required={question.isRequired}>
-              <FormLabel component="legend">{question.questionText}</FormLabel>
-              
+              <FormLabel component="legend">{question.QuestionTitle || 'Untitled Question'}</FormLabel>
+    
               {question.type === 'short_text' || question.type === 'paragraph' ? (
                 <TextField
                   variant="outlined"
