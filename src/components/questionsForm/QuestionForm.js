@@ -6,10 +6,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import ShortTextIcon from '@mui/icons-material/ShortText';
 import SubjectIcon from '@mui/icons-material/Subject';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
-import TextFieldsIcon from '@mui/icons-material/TextFields';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -19,22 +16,23 @@ import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import { IconButton, MenuItem } from '@mui/material';
-
 import './QuestionForm.css';
 
 function QuestionForm() {
   const [questions, setQuestions] = useState([
     {
+      id: 'q1',
       questionText: 'Which is the capital city of Egypt?',
       questionType: 'radio',
       options: [
-        { optionText: 'Cairo' },
-        { optionText: 'Alex' },
-        { optionText: 'Aswan' },
-        { optionText: 'Menia' },
+        { id: 'q1-o1', optionText: 'Cairo' },
+        { id: 'q1-o2', optionText: 'Alex' },
+        { id: 'q1-o3', optionText: 'Aswan' },
+        { id: 'q1-o4', optionText: 'Menia' },
       ],
       open: true,
       required: false,
+      saved: false
     },
   ]);
 
@@ -64,7 +62,11 @@ function QuestionForm() {
 
   function addOption(i) {
     const newQuestions = [...questions];
-    newQuestions[i].options.push({ optionText: "Option " + (newQuestions[i].options.length + 1) });
+    const newOptionId = `q${i+1}-o${newQuestions[i].options.length + 1}`;
+    newQuestions[i].options.push({ 
+      id: newOptionId,
+      optionText: `Option ${newQuestions[i].options.length + 1}` 
+    });
     setQuestions(newQuestions);
   }
 
@@ -75,41 +77,52 @@ function QuestionForm() {
       setQuestions(newQuestions);
     }
   }
-  function addMoreQuestionField () {
-    setQuestions([...questions,
-        {questionText:"Question",questionType:"radio",options:[{optionText:"Option 1"}], open:true,required:false}
-    ])
-  }
-  function deleteQuestion(i) {
-    const newQuestions = [...questions];
-    if (newQuestions.length > 1) {
-      newQuestions.splice(i, 1);
-      setQuestions(newQuestions);
-    }
+
+  function addMoreQuestionField() {
+    const updatedQuestions = questions.map(q => ({
+      ...q,
+      open: false,
+      saved: true
+    }));
+
+    const newId = `q${questions.length + 1}`;
+    setQuestions([...updatedQuestions, {
+      id: newId,
+      questionText: "Question",
+      questionType: "radio",
+      options: [{ id: `${newId}-o1`, optionText: "Option 1" }],
+      open: true,
+      required: false,
+      saved: false
+    }]);
   }
 
-  function copyQuestion(i) {
-    const questionToCopy = questions[i];
-    const newQuestion = {
-      ...questionToCopy,
-      questionText: `${questionToCopy.questionText} (Copy)`,
-      options: questionToCopy.options.map(option => ({ ...option })),
-      open: false
-    };
-    
+  function toggleQuestionOpen(i) {
     const newQuestions = [...questions];
-    newQuestions.splice(i + 1, 0, newQuestion);
+    newQuestions[i].open = !newQuestions[i].open;
+    if (!newQuestions[i].open) {
+      newQuestions[i].saved = true;
+    }
     setQuestions(newQuestions);
+  }
+
+  function deleteQuestion(i) {
+    if (window.confirm("Are you sure you want to delete this question?")) {
+      const newQuestions = [...questions];
+      if (newQuestions.length > 1) {
+        newQuestions.splice(i, 1);
+        setQuestions(newQuestions);
+      }
+    }
   }
 
   function questionUI() {
     return questions.map((ques, i) => (
-      <div key={i}>
-        <Accordion expanded={ques.open} className={ques.open ? 'add_border' : ''}>
+      <div key={ques.id}>
+        <Accordion expanded={ques.open} onChange={() => toggleQuestionOpen(i)} className={ques.saved ? 'saved_question' : ''}>
           <AccordionSummary
             aria-controls={`panel${i}-content`}
             id={`panel${i}-header`}
-            elevation={1}
             style={{ width: '100%' }}
           >
             {!ques.open ? (
@@ -117,17 +130,18 @@ function QuestionForm() {
                 <Typography
                   style={{
                     fontSize: '15px',
-                    fontWeight: '400',
+                    fontWeight: ques.saved ? '500' : '400',
                     letterSpacing: '.1px',
                     lineHeight: '24px',
                     paddingBottom: '8px',
+                    color: ques.saved ? '#333' : '#666'
                   }}
                 >
                   {i + 1}. {ques.questionText}
                 </Typography>
 
-                {ques.options.map((op, j) => (
-                  <div key={j} style={{ display: 'flex' }}>
+                {ques.saved && ques.options.map((op) => (
+                  <div key={op.id} style={{ display: 'flex' }}>
                     <FormControlLabel
                       style={{ marginLeft: '5px', marginBottom: '5px' }}
                       disabled
@@ -198,7 +212,7 @@ function QuestionForm() {
               </div>
 
               {ques.options.map((op, j) => (
-                <div className="add_question_body" key={j}>
+                <div className="add_question_body" key={op.id}>
                   {ques.questionType === 'text' ? (
                     <ShortTextIcon style={{ marginRight: '10px' }} />
                   ) : (
@@ -242,17 +256,11 @@ function QuestionForm() {
                 </div>
                 <div className="add_question_bottom">
                   <IconButton 
-                    aria-label="Copy"
-                    onClick={() => copyQuestion(i)}
+                    aria-label="Delete" 
+                    onClick={() => deleteQuestion(i)}
                   >
-                    <FilterNoneIcon />
+                    <CloseIcon />
                   </IconButton>
-                  <IconButton 
-                        aria-label="Delete" 
-                        onClick={() => deleteQuestion(i)}
-                        >
-                        <CloseIcon />
-                    </IconButton>
                   <span style={{ color: '#5f6368', fontSize: '13px' }}>
                     Required{' '}
                   </span>
@@ -269,12 +277,6 @@ function QuestionForm() {
               </div>
             </div>
           </AccordionDetails>
-          <div className="question_edit">
-            <AddCircleOutlineIcon className="edit" onClick={addMoreQuestionField}/>
-            <OndemandVideoIcon className="edit" />
-            <CropOriginalIcon className="edit" />
-            <TextFieldsIcon className="edit" />
-          </div>
         </Accordion>
       </div>
     ));
@@ -300,6 +302,16 @@ function QuestionForm() {
           </div>
         </div>
         {questionUI()}
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddCircleOutlineIcon />}
+            onClick={addMoreQuestionField}
+          >
+            Add Question
+          </Button>
+        </div>
       </div>
     </div>
   );
