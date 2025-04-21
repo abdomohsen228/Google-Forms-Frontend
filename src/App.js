@@ -4,6 +4,7 @@ import MainBody from './components/mainBody/MainBody';
 import Template from './components/mainBody/Template';
 import FormHeader from './components/formHeader/FormHeader';
 import FormTabs from './components/FormTabs';
+import QuestionForm from'./components/QuestionForm';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
             <div>
               <FormHeader />
               <FormTabs />
-              
+              <QuestionForm />
             </div>
           } />
           <Route path="/" element={
