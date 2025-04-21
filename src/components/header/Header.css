@@ -1,3 +1,4 @@
+
 .header{
     background-color: rgb(255, 255, 255);
     position: sticky;
@@ -21,6 +22,9 @@
     display: flex;
     align-items: center;
 }
+.header_right > * {
+    margin: 0 5px;
+  }
 .header_search{
     display: flex;
     align-items: center;

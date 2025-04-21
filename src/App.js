@@ -6,6 +6,7 @@ import Template from './components/mainBody/Template';
 import FormHeader from './components/formHeader/FormHeader';
 import FormTabs from './components/FormTabs';
 import QuestionForm from './components/questionsForm/QuestionForm';
+import SuccessPage from './components/questionsForm/SuccessPage';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
@@ -39,11 +40,19 @@ function App() {
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/form/:id" element={
-            <div>
-              <FormHeader />
-              <FormTabs />
-              <QuestionForm />
-            </div>
+            <ProtectedRoute>
+              <div>
+                <FormHeader />
+                <FormTabs />
+                <QuestionForm />
+              </div>
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/success" element={
+            <ProtectedRoute>
+              <SuccessPage />
+            </ProtectedRoute>
           } />
           
           <Route path="/" element={
