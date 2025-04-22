@@ -19,7 +19,7 @@ function SuccessPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { formId, formTitle } = location.state || {};
-  const formUrl = `https://google-forms-frontend-gxic.vercel.app/forms/${formId}/submit`;
+  const formUrl = `${window.location.origin}/forms/${formId}/submit`;
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState('');
 
