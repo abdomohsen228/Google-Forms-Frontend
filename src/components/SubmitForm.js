@@ -13,7 +13,8 @@ import {
   FormGroup,
   FormControl,
   FormLabel,
-  Alert
+  Alert,
+  Paper
 } from '@mui/material';
 import axios from 'axios';
 
@@ -100,7 +101,7 @@ function SubmitForm() {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ mt: 4, mb: 4 }}>
+      <Paper elevation={3} sx={{ mt: 5, p: 4, bgcolor: '#f9f9f9' }}>
         <Typography variant="h4" component="h1" gutterBottom>
           {form.title}
         </Typography>
@@ -133,52 +134,65 @@ function SubmitForm() {
           </FormControl>
 
           {form.questions.slice(1).map((question, index) => (
-            <FormControl key={question._id} fullWidth margin="normal" required={question.isRequired}>
-              <FormLabel component="legend">{question.QuestionTitle || 'Untitled Question'}</FormLabel>
+            <Box
+              key={question._id}
+              sx={{
+                border: '1px solid #ccc',
+                borderRadius: 2,
+                p: 3,
+                my: 2,
+                backgroundColor: '#fff'
+              }}
+            >
+              <FormControl fullWidth required={question.isRequired}>
+                <FormLabel component="legend" sx={{ mb: 1, fontWeight: 'bold' }}>
+                  {question.QuestionTitle || 'Untitled Question'}
+                </FormLabel>
     
-              {question.type === 'short_text' || question.type === 'paragraph' ? (
-                <TextField
-                  variant="outlined"
-                  multiline={question.type === 'paragraph'}
-                  rows={question.type === 'paragraph' ? 4 : 1}
-                  value={answers[index + 1]?.answerText || ''}
-                  onChange={(e) => handleAnswerChange(index + 1, e.target.value)}
-                  required={question.isRequired}
-                />
-              ) : question.type === 'multiple_choice' ? (
-                <RadioGroup
-                  value={answers[index + 1]?.answerText || ''}
-                  onChange={(e) => handleAnswerChange(index + 1, e.target.value)}
-                >
-                  {question.options.map((option, optIndex) => (
-                    <FormControlLabel
-                      key={optIndex}
-                      value={option}
-                      control={<Radio />}
-                      label={option}
-                    />
-                  ))}
-                </RadioGroup>
-              ) : question.type === 'checkboxes' ? (
-                <FormGroup>
-                  {question.options.map((option, optIndex) => (
-                    <FormControlLabel
-                      key={optIndex}
-                      control={
-                        <Checkbox
-                          checked={answers[index + 1]?.answerOptions?.includes(option) || false}
-                          onChange={() => handleAnswerChange(index + 1, option, true)}
-                        />
-                      }
-                      label={option}
-                    />
-                  ))}
-                </FormGroup>
-              ) : null}
-            </FormControl>
+                {question.type === 'short_text' || question.type === 'paragraph' ? (
+                  <TextField
+                    variant="outlined"
+                    multiline={question.type === 'paragraph'}
+                    rows={question.type === 'paragraph' ? 4 : 1}
+                    value={answers[index + 1]?.answerText || ''}
+                    onChange={(e) => handleAnswerChange(index + 1, e.target.value)}
+                    required={question.isRequired}
+                  />
+                ) : question.type === 'multiple_choice' ? (
+                  <RadioGroup
+                    value={answers[index + 1]?.answerText || ''}
+                    onChange={(e) => handleAnswerChange(index + 1, e.target.value)}
+                  >
+                    {question.options.map((option, optIndex) => (
+                      <FormControlLabel
+                        key={optIndex}
+                        value={option}
+                        control={<Radio />}
+                        label={option}
+                      />
+                    ))}
+                  </RadioGroup>
+                ) : question.type === 'checkboxes' ? (
+                  <FormGroup>
+                    {question.options.map((option, optIndex) => (
+                      <FormControlLabel
+                        key={optIndex}
+                        control={
+                          <Checkbox
+                            checked={answers[index + 1]?.answerOptions?.includes(option) || false}
+                            onChange={() => handleAnswerChange(index + 1, option, true)}
+                          />
+                        }
+                        label={option}
+                      />
+                    ))}
+                  </FormGroup>
+                ) : null}
+              </FormControl>
+            </Box>
           ))}
 
-          <Box sx={{ mt: 3 }}>
+          <Box sx={{ mt: 4 }}>
             <Button
               type="submit"
               variant="contained"
@@ -189,7 +203,7 @@ function SubmitForm() {
             </Button>
           </Box>
         </form>
-      </Box>
+      </Paper>
     </Container>
   );
 }
