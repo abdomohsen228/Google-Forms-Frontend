@@ -117,7 +117,7 @@ function QuestionForm() {
         
         return {
           type: questionType,
-          questionText: q.questionText,
+          QuestionTitle: q.questionText,
           isRequired: q.required,
           options: questionType === 'short_text' || questionType === 'paragraph' ? [] : q.options.map(opt => opt.optionText),
           settings: {},
