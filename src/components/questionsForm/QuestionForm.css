@@ -1,0 +1,222 @@
+.question_form {
+    background-color: #f4f4f9;
+    height: 100%;
+    min-height: 100vh;
+    padding: 30px 0;
+    box-sizing: border-box;
+  }
+  
+  .section {
+    margin: auto;
+    width: 50%;
+    min-width: 600px;
+    max-width: 800px;
+  }
+  .question_form_top {
+    background-color: white;
+    border-top: 8px solid rgb(103, 58, 183);
+    border-radius: 8px;
+    padding: 30px 25px;
+    text-transform: capitalize;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  
+  .question_form_top_name {
+    box-sizing: border-box;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 40px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #F4F4F9;
+    color: black;
+    height: 35px;
+    margin-bottom: 10px;
+  }
+  
+  .question_form_top_desc {
+    box-sizing: border-box;
+    margin-top: 10px;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #F4F4F9;
+    color: black;
+    height: 20px;
+  }
+
+  .add_border {
+    border: 1px solid #3f51b5 !important;
+    border-radius: 5px !important;
+    margin-bottom: 15px !important;
+  }
+  
+  .saved_questions {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    width: 100%;
+  }
+  
+  .saved_questions .MuiTypography-root {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .add_question {
+    padding: 15px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 5px 5px;
+  }
+  
+  .add_question_top {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .add_question_top input {
+    flex-grow: 1;
+    padding: 8px 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  }
+  
+  .add_question_top .MuiSelect-root {
+    background-color: #fff;
+    width: 180px;
+    height: 40px;
+  }
+
+  .add_question_body {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 8px 0;
+  }
+  
+  .add_question_body .text_input {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    width: 100%;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  }
+  
+  .add_question_body .MuiIconButton-root {
+    color: #5f6368;
+    font-size: 20px;
+    margin-left: 10px;
+  }
+  
+  .add_question_body input[type='text'] {
+    margin-right: 10px;
+  }
+
+  .add_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+  }
+  .question_edit {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+    border-radius: 0 0 8px 8px;
+  }
+  
+  .edit {
+    color: #5f6368;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .edit:hover {
+    background-color: #f1f3f4;
+    color: #3f51b5;
+    transform: scale(1.1);
+  }
+  
+  .add_question_bottom_left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .add_question_bottom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .MuiSelect-root {
+    font-size: 14px;
+  }
+  
+  .text_input:focus,
+  .add_question_top input:focus {
+    border-color: #3f51b5;
+    outline: none;
+    box-shadow: 0 0 0 1px #3f51b5;
+  }
+  
+  .MuiIconButton-root {
+    padding: 6px;
+  }
+  
+  .MuiAccordionSummary-root {
+    min-height: 48px;
+    padding: 0 15px;
+  }
+  
+  .MuiAccordionSummary-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0 !important;
+  }
+  
+  .MuiFormControlLabel-root {
+    margin-left: 5px;
+    margin-right: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .section {
+      width: 90%;
+      min-width: unset;
+    }
+    
+    .add_question_top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .add_question_top input {
+      width: 100%;
+    }
+  }

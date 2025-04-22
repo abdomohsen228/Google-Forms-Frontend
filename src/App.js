@@ -1,23 +1,75 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
+import Header from './components/header/Header';
+import MainBody from './components/mainBody/MainBody';
+import Template from './components/mainBody/Template';
+import FormHeader from './components/formHeader/FormHeader';
+import FormTabs from './components/FormTabs';
+import QuestionForm from './components/questionsForm/QuestionForm';
+import SuccessPage from './components/questionsForm/SuccessPage';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/auth/Login';
+import Signup from './components/auth/Signup';
+import SubmitForm from './components/SubmitForm';
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem('token'));
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+  };
+
+  const ProtectedRoute = ({ children }) => {
+    if (!token) {
+      return <Navigate to="/login" replace />;
+    }
+    return children;
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login setToken={setToken} />} />
+          <Route path="/signup" element={<Signup />} />
+          
+          <Route path="/forms/:formId/submit" element={<SubmitForm />} />
+          
+          <Route path="/form/:id" element={
+            <ProtectedRoute>
+              <div>
+                <FormHeader />
+                <FormTabs />
+                <QuestionForm />
+              </div>
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/success" element={
+            <ProtectedRoute>
+              <SuccessPage />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/" element={
+            <ProtectedRoute>
+              <>
+                <Header onLogout={handleLogout} />
+                <Template />
+                <MainBody />
+              </>
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </Router>
     </div>
   );
 }
