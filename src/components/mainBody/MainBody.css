@@ -1,8 +1,11 @@
 .mainbody{
-    background-color: white;
+    background-color: rgb(228, 14, 118);
     margin-left: 160px;
     margin-right: 160px;
 }
+
+
+
 .mainbody_top{
     display: flex;
     margin-top: 15px;
